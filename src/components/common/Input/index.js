@@ -22,8 +22,9 @@ export default function Input({
     }
   };
   const getBorderColor = () => {
+    if (error) return colors.danger;
     if (focused) return colors.primary;
-    return error ? colors.danger : colors.grey;
+    return colors.grey;
   };
   return (
     <View style={styles.inputContainer}>

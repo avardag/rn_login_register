@@ -14,6 +14,7 @@ export default StyleSheet.create({
   },
   input: {
     flex: 1,
+    width: '100%',
   },
   error: {
     color: colors.danger,
