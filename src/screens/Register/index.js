@@ -1,7 +1,13 @@
 import React, {useState} from 'react';
 import RegisterComponent from '../../components/Register';
+import envs from '../../config/env';
 
 export default function Register() {
+  const {DEV_API_URL} = envs;
+  console.log(
+    '🚀 ~ file: index.js ~ line 7 ~ Register ~ DEV_API_URL',
+    DEV_API_URL,
+  );
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -27,7 +33,6 @@ export default function Register() {
   };
   const onSubmit = () => {
     //validations
-    console.log('form:=>>', formData);
     if (!formData.username) {
       setErrors(prev => ({...prev, username: 'Please add username'}));
     }
