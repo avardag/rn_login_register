@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
-import colors from '../../../../assets/theme/colors';
+import colors from '../../../assets/theme/colors';
 import styles from './styles';
 
 export default function Input({
@@ -15,7 +15,7 @@ export default function Input({
   ...restProps
 }) {
   const [focused, setFocused] = useState(false);
-  const placeholderText = placeholder || 'useless placeholder';
+  const placeholderText = placeholder || 'Enter here';
   const getIconPosition = () => {
     if (icon && iconPosition) {
       return iconPosition === 'right' ? 'row-reverse' : 'row';
@@ -42,7 +42,7 @@ export default function Input({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           {...restProps}
-          // placeholder={placeholderText}
+          placeholder={placeholderText}
           // keyboardType="numeric"
         />
       </View>
