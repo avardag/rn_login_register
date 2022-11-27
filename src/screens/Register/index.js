@@ -1,15 +1,34 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useState, useEffect, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import RegisterComponent from '../../components/Register';
-import envs from '../../config/env';
-import axiosInstance from '../../helpers/axiosInterceptor';
+import register, {clearAuthState} from '../../context/actions/auth/register';
+import {GlobalContext} from '../../context/Provider';
+import {useNavigation} from '@react-navigation/native';
+import {LOGIN} from '../../constants/routeNames';
 
 export default function Register() {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
+  const {navigate} = useNavigation();
+
+  const {
+    authDispatch,
+    authState: {error, loading, data},
+  } = useContext(GlobalContext);
 
   useEffect(() => {
-    axiosInstance.get('/contacts').catch(err => console.log(err));
-  }, []);
+    if (data) {
+      navigate(LOGIN);
+    }
+  }, [data, navigate]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (data || error) {
+        clearAuthState()(authDispatch);
+      }
+    }, [data, error, authDispatch]),
+  );
 
   const onChange = ({name, value}) => {
     setFormData({...formData, [name]: value});
@@ -48,9 +67,19 @@ export default function Register() {
     if (!formData.password) {
       setErrors(prev => ({...prev, password: 'Please add password'}));
     }
+    //check if any of values are empty
+    if (
+      Object.values(formData).length === 5 &&
+      Object.values(formData).every(item => item.trim().length > 0) &&
+      Object.values(errors).every(item => !item)
+    ) {
+      register(formData)(authDispatch);
+    }
   };
   return (
     <RegisterComponent
+      error={error}
+      loading={loading}
       errors={errors}
       formData={formData}
       onSubmit={onSubmit}

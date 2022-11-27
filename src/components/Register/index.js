@@ -9,6 +9,8 @@ import {LOGIN} from '../../constants/routeNames';
 
 export default function RegisterComponent({
   errors,
+  error,
+  loading,
   formData,
   onSubmit,
   onChange,
@@ -31,7 +33,7 @@ export default function RegisterComponent({
             onChangeText={value => {
               onChange({name: 'username', value});
             }}
-            error={errors.username}
+            error={errors.username || error?.username?.[0]}
           />
           <Input
             label="Email"
@@ -40,7 +42,7 @@ export default function RegisterComponent({
             onChangeText={value => {
               onChange({name: 'email', value});
             }}
-            error={errors.email}
+            error={errors.email || error?.email?.[0]}
           />
           <Input
             label="First name"
@@ -49,7 +51,7 @@ export default function RegisterComponent({
             onChangeText={value => {
               onChange({name: 'firstName', value});
             }}
-            error={errors.firstName}
+            error={errors.firstName || error?.first_name?.[0]}
           />
           <Input
             label="Last Name"
@@ -58,7 +60,7 @@ export default function RegisterComponent({
             onChangeText={value => {
               onChange({name: 'lastName', value});
             }}
-            error={errors.lastName}
+            error={errors.lastName || error?.last_name?.[0]}
           />
           <Input
             label="Password"
@@ -69,9 +71,15 @@ export default function RegisterComponent({
             onChangeText={value => {
               onChange({name: 'password', value});
             }}
-            error={errors.password}
+            error={errors.password || error?.password?.[0]}
           />
-          <CustomButton primary title="Submit" onPress={onSubmit} />
+          <CustomButton
+            primary
+            title="Submit"
+            onPress={onSubmit}
+            loading={loading}
+            disabled={loading}
+          />
           <View style={styles.noAccountSection}>
             <Text style={styles.infoText}>Already registered?</Text>
             <TouchableOpacity
