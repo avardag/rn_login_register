@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import RegisterComponent from '../../components/Register';
 import envs from '../../config/env';
+import axiosInstance from '../../helpers/axiosInterceptor';
 
 export default function Register() {
-  const {DEV_API_URL} = envs;
-  console.log(
-    '🚀 ~ file: index.js ~ line 7 ~ Register ~ DEV_API_URL',
-    DEV_API_URL,
-  );
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    axiosInstance.get('/contacts').catch(err => console.log(err));
+  }, []);
 
   const onChange = ({name, value}) => {
     setFormData({...formData, [name]: value});
@@ -58,3 +58,5 @@ export default function Register() {
     />
   );
 }
+
+///2.28.20
