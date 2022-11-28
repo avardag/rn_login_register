@@ -25,6 +25,14 @@ export default function RegisterComponent({
       <View>
         <Text style={styles.title}>Welcome to RNContacts</Text>
         <Text style={styles.subTitle}>Please register account here</Text>
+        {error &&
+          Object.keys(error).length > 0 &&
+          Object.keys(error).map(objKey => (
+            <View key={objKey}>
+              <Text>{objKey}</Text>
+              <Text>{error[objKey]}</Text>
+            </View>
+          ))}
         <View style={styles.form}>
           <Input
             label="Username"

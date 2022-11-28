@@ -6,6 +6,7 @@ import CustomButton from '../common/CustomButton';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {REGISTER} from '../../constants/routeNames';
+import Message from '../common/Message';
 
 export default function LoginComponent() {
   const {navigate} = useNavigation();
