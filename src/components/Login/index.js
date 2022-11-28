@@ -8,7 +8,13 @@ import {useNavigation} from '@react-navigation/native';
 import {REGISTER} from '../../constants/routeNames';
 import Message from '../common/Message';
 
-export default function LoginComponent() {
+export default function LoginComponent({
+  error,
+  loading,
+  formData,
+  onSubmit,
+  onChange,
+}) {
   const {navigate} = useNavigation();
   return (
     <Container>
@@ -19,11 +25,24 @@ export default function LoginComponent() {
       <View>
         <Text style={styles.title}>Welcome to RNContacts</Text>
         <Text style={styles.subTitle}>Please log in here</Text>
+        {error &&
+          Object.keys(error).length > 0 &&
+          Object.keys(error).map(objKey => (
+            <Message
+              danger
+              onDismiss={() => {}}
+              message={error[objKey]}
+              key={objKey}
+            />
+          ))}
         <View style={styles.form}>
           <Input
             label="Username"
             placeholder="Enter username"
             iconPosition="right"
+            onChangeText={value => {
+              onChange({name: 'username', value});
+            }}
           />
           <Input
             label="Password"
@@ -31,8 +50,17 @@ export default function LoginComponent() {
             secureTextEntry
             iconPosition="right"
             icon={<Text>Q</Text>}
+            onChangeText={value => {
+              onChange({name: 'password', value});
+            }}
           />
-          <CustomButton primary title="Submit" />
+          <CustomButton
+            primary
+            title="Submit"
+            onPress={onSubmit}
+            disabled={loading}
+            loading={loading}
+          />
           <View style={styles.noAccountSection}>
             <Text style={styles.infoText}>Dont have account?</Text>
             <TouchableOpacity

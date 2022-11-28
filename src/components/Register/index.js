@@ -6,6 +6,7 @@ import CustomButton from '../common/CustomButton';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {LOGIN} from '../../constants/routeNames';
+import Message from '../common/Message';
 
 export default function RegisterComponent({
   errors,
@@ -28,10 +29,7 @@ export default function RegisterComponent({
         {error &&
           Object.keys(error).length > 0 &&
           Object.keys(error).map(objKey => (
-            <View key={objKey}>
-              <Text>{objKey}</Text>
-              <Text>{error[objKey]}</Text>
-            </View>
+            <Message danger onDismiss={() => {}} message={error[objKey]} />
           ))}
         <View style={styles.form}>
           <Input
