@@ -26,7 +26,7 @@ export default function AppNavContainer() {
 
   useEffect(() => {
     getUserFromStorage();
-  }, []);
+  }, [authState.isLoggedIn]);
 
   if (!authCheckCompleted) {
     return <ActivityIndicator style={{flex: 1}} size="large" />;
