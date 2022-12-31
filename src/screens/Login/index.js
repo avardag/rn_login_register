@@ -1,5 +1,5 @@
-import React, {useState, useContext, useCallback} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
+import React, {useState, useContext, useCallback, useEffect} from 'react';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 import LoginComponent from '../../components/Login';
 import {GlobalContext} from '../../context/Provider';
 import login from '../../context/actions/auth/login';
@@ -7,6 +7,15 @@ import {clearAuthState} from '../../context/actions/auth/register';
 
 export default function Login() {
   const [formData, setFormData] = useState({});
+  const [justSignedUp, setJustSignedUp] = useState(false);
+  const {params} = useRoute();
+
+  useEffect(() => {
+    if (params?.data) {
+      setFormData({...formData, username: params.data.username});
+      setJustSignedUp(true);
+    }
+  }, [params, formData]);
 
   const {
     authDispatch,
@@ -24,6 +33,7 @@ export default function Login() {
   );
 
   const onChange = ({name, value}) => {
+    setJustSignedUp(false);
     setFormData({...formData, [name]: value});
   };
   const onSubmit = () => {
@@ -38,6 +48,7 @@ export default function Login() {
       formData={formData}
       onSubmit={onSubmit}
       onChange={onChange}
+      justSignedUp={justSignedUp}
     />
   );
 }

@@ -16,12 +16,6 @@ export default function Register() {
     authState: {error, loading, data},
   } = useContext(GlobalContext);
 
-  useEffect(() => {
-    if (data) {
-      navigate(LOGIN);
-    }
-  }, [data, navigate]);
-
   useFocusEffect(
     useCallback(() => {
       return () => {
@@ -75,7 +69,9 @@ export default function Register() {
       Object.values(formData).every(item => item.trim().length > 0) &&
       Object.values(errors).every(item => !item)
     ) {
-      register(formData)(authDispatch);
+      register(formData)(authDispatch)(resp => {
+        navigate(LOGIN, {data: resp});
+      });
     }
   };
   return (

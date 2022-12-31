@@ -14,6 +14,7 @@ export default function LoginComponent({
   formData,
   onSubmit,
   onChange,
+  justSignedUp,
 }) {
   const {navigate} = useNavigation();
   const [isSecureEntry, setIsSecureEntry] = useState(true);
@@ -26,6 +27,13 @@ export default function LoginComponent({
       <View>
         <Text style={styles.title}>Welcome to RNContacts</Text>
         <Text style={styles.subTitle}>Please log in here</Text>
+        {justSignedUp && (
+          <Message
+            success
+            onDismiss={() => {}}
+            message="Account created successfully"
+          />
+        )}
         {error &&
           Object.keys(error).length > 0 &&
           Object.keys(error).map(objKey => (
@@ -40,6 +48,7 @@ export default function LoginComponent({
           <Input
             label="Username"
             placeholder="Enter username"
+            value={formData.username || null}
             iconPosition="right"
             onChangeText={value => {
               onChange({name: 'username', value});
